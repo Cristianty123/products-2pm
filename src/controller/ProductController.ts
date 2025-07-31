@@ -9,7 +9,14 @@ export default class ProductController{
         if(!productList) res.status(204).json({message: 'No products found'})
         res.status(200).json(productList);
     }
-    readonly getProductById = ():void =>{
-
+    readonly getProductById = async (_req: Request, res: Response): Promise<void> =>{
+        const id = _req.params['id'];
+        if(!id){
+            res.status(403).json({message: 'invalid product ID'});
+            return;
+        }
+        const product = await this.productModel.retrieveProductsById(id);
+        if(!product) res.status(204).json({message: 'No products found'})
+        res.status(200).json(product);
     }
 }

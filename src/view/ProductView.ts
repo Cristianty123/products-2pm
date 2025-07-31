@@ -9,9 +9,8 @@ export default class ProductView{
         this.routes();
     }
 
-
     readonly routes = ():void => {
         this.router.get('/products',this.productController.getProducts);
-        this.router.get('/products//products/:id',this.productController.getProductById);
+        this.router.get('/products/:id',this.productController.getProductById);
     }
 }
