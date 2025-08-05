@@ -19,4 +19,10 @@ export default class ProductController{
         if(!product) res.status(204).json({message: 'No products found'})
         res.status(200).json(product);
     }
+
+    readonly getProductWithDiscountUnderTenEurs = async (_req: Request, res: Response): Promise<void> =>{
+        const productList = await this.productModel.retrieveProductWithDiscountUnderTenEurs();
+        if(!productList) res.status(204).json({message: 'No products found'})
+        res.status(200).json(productList);
+    }
 }

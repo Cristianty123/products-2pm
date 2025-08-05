@@ -12,5 +12,6 @@ export default class ProductView{
     readonly routes = ():void => {
         this.router.get('/products',this.productController.getProducts);
         this.router.get('/products/:id',this.productController.getProductById);
+        this.router.get('/products/discount/under10Eurs',this.productController.getProductWithDiscountUnderTenEurs);
     }
 }
