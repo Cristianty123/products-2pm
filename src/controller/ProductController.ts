@@ -25,4 +25,18 @@ export default class ProductController{
         if(!productList) res.status(204).json({message: 'No products found'})
         res.status(200).json(productList);
     }
+    readonly getProductImageById = async (_req: Request, res: Response): Promise<void> =>{
+        const id = _req.params['id'];
+        if(!id){
+            res.status(403).json({message: 'invalid product ID'});
+            return;
+        }
+        const path = await this.productModel.retrieveProductImageById(id);
+
+        if(!path){
+            res.status(404).json({message: 'invalid product image'});
+            return;
+        }
+        res.status(200).sendFile(path);
+    }
 }

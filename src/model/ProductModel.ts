@@ -1,5 +1,7 @@
 import ProductsDatabase from '../../database/products.json';
 import ProductInterface from "../types/ProductInterface";
+import { promises as fs } from 'fs'
+import path from 'path'
 
 export class ProductModel{
     readonly retrieveProducts = async(): Promise<ProductInterface[]> =>{
@@ -35,6 +37,23 @@ export class ProductModel{
         }catch (error){
             console.error('Error retrieving products:',error);
             return [];
+        }
+    }
+    readonly retrieveProductImageById = async (id: string): Promise<string> => {
+        const file = `${id}.jpg`
+        const absolutePath = path.join(__dirname, `../../assets/img/`)
+        const defaultImage = 'not-icon.png'
+        try {
+            await fs.access(absolutePath + file, fs.constants.F_OK)
+            const stats = await fs.stat(absolutePath + file)
+            if (stats.isFile()) {
+                return absolutePath + file
+            }
+            console.log(absolutePath)
+            return absolutePath + defaultImage
+        } catch (err) {
+            console.error('Image not found, returning default image:', err)
+            return absolutePath + defaultImage
         }
     }
 }
